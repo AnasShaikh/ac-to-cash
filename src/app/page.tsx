@@ -1,5 +1,9 @@
 "use client";
 
+declare global {
+  interface Window { gtag?: (...args: unknown[]) => void; }
+}
+
 import { useState } from "react";
 
 /* ── option data ── */
@@ -65,6 +69,12 @@ export default function Home() {
         body: JSON.stringify(f),
       });
       if (!res.ok) throw new Error();
+      // Fire Google Ads conversion
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        window.gtag("event", "conversion", {
+          send_to: "AW-953195901/CONVERSION_LABEL",
+        });
+      }
       setDone(true);
       setF(blank);
     } catch {
