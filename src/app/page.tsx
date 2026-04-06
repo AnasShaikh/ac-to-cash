@@ -6,6 +6,82 @@ declare global {
 
 import { useState } from "react";
 
+/* ── translations ── */
+type Lang = "en" | "hi";
+
+const t = {
+  en: {
+    subtitle: "Mumbai",
+    tagline: "Sell your old AC in minutes",
+    aboutYou: "About You",
+    fullName: "Full Name",
+    namePlaceholder: "Your name",
+    phone: "Phone",
+    phonePlaceholder: "10-digit number",
+    acDetails: "AC Details",
+    type: "Type",
+    condition: "Condition",
+    brand: "Brand",
+    tonnage: "Tonnage",
+    age: "Age",
+    pickupDetails: "Pickup Details",
+    pickupAddress: "Pickup Address",
+    addressPlaceholder: "Full address with landmark",
+    notes: "Notes",
+    optional: "(optional)",
+    notesPlaceholder: "Preferred time, floor, etc.",
+    submit: "Get My Quote",
+    submitting: "Submitting...",
+    consent: "By submitting, you agree to be contacted by our team.",
+    whatsappLabel: "Or chat with us on WhatsApp",
+    successTitle: "Query Submitted!",
+    successMsg: "Our team will call you within a few hours with the best offer for your AC.",
+    submitAnother: "Submit another query",
+    waSuccessMsg: "Hi, I just submitted a query on ACtoCash for selling my AC.",
+    waFormMsg: "Hi, I want to sell my old AC.",
+    required: "Required",
+    invalidPhone: "Enter valid 10-digit number",
+    selectOne: "Select one",
+    serverError: "Something went wrong. Please try again.",
+    conditions: { "Working": "Working", "Needs Repair": "Needs Repair", "Not Working": "Not Working" } as Record<string, string>,
+  },
+  hi: {
+    subtitle: "Mumbai",
+    tagline: "Apna purana AC minute mein bechein",
+    aboutYou: "Aapki Jaankari",
+    fullName: "Pura Naam",
+    namePlaceholder: "Aapka naam",
+    phone: "Phone",
+    phonePlaceholder: "10 digit number",
+    acDetails: "AC Ki Jaankari",
+    type: "Type",
+    condition: "Condition",
+    brand: "Brand",
+    tonnage: "Tonnage",
+    age: "Kitna Purana",
+    pickupDetails: "Pickup Ki Jaankari",
+    pickupAddress: "Pickup Address",
+    addressPlaceholder: "Pura address landmark ke saath",
+    notes: "Notes",
+    optional: "(optional)",
+    notesPlaceholder: "Time, floor, etc.",
+    submit: "Quote Mangein",
+    submitting: "Bhej rahe hain...",
+    consent: "Submit karne par aap hamare team se contact hone ke liye agree karte hain.",
+    whatsappLabel: "Ya WhatsApp par baat karein",
+    successTitle: "Query Submit Ho Gayi!",
+    successMsg: "Hamari team kuch ghanton mein aapko call karegi aapke AC ka best offer dene ke liye.",
+    submitAnother: "Ek aur query submit karein",
+    waSuccessMsg: "Hi, maine ACtoCash par apna AC bechne ke liye query submit ki hai.",
+    waFormMsg: "Hi, mujhe apna purana AC bechna hai.",
+    required: "Zaruri hai",
+    invalidPhone: "Sahi 10 digit number daalein",
+    selectOne: "Ek chunein",
+    serverError: "Kuch gadbad ho gayi. Dobara try karein.",
+    conditions: { "Working": "Chalu", "Needs Repair": "Repair Chahiye", "Not Working": "Band Hai" } as Record<string, string>,
+  },
+} as const;
+
 /* ── option data ── */
 const WHATSAPP_NUMBERS = [
   { display: "80977 21250", raw: "918097721250" },
@@ -39,6 +115,8 @@ const blank: Form = {
 };
 
 export default function Home() {
+  const [lang, setLang] = useState<Lang>("en");
+  const l = t[lang];
   const [f, setF] = useState<Form>(blank);
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [busy, setBusy] = useState(false);
@@ -52,12 +130,12 @@ export default function Home() {
 
   const validate = () => {
     const e: Partial<Record<keyof Form, string>> = {};
-    if (!f.name.trim()) e.name = "Required";
-    if (!f.phone.trim()) e.phone = "Required";
-    else if (!/^[6-9]\d{9}$/.test(f.phone.trim())) e.phone = "Enter valid 10-digit number";
-    if (!f.acType) e.acType = "Select one";
-    if (!f.condition) e.condition = "Select one";
-    if (!f.address.trim()) e.address = "Required";
+    if (!f.name.trim()) e.name = l.required;
+    if (!f.phone.trim()) e.phone = l.required;
+    else if (!/^[6-9]\d{9}$/.test(f.phone.trim())) e.phone = l.invalidPhone;
+    if (!f.acType) e.acType = l.selectOne;
+    if (!f.condition) e.condition = l.selectOne;
+    if (!f.address.trim()) e.address = l.required;
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -83,7 +161,7 @@ export default function Home() {
       setDone(true);
       setF(blank);
     } catch {
-      setServerErr("Something went wrong. Please try again.");
+      setServerErr(l.serverError);
     } finally {
       setBusy(false);
     }
@@ -99,14 +177,14 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Query Submitted!</h2>
-          <p className="text-slate-500 mb-6">Our team will call you within a few hours with the best offer for your AC.</p>
-          <WhatsAppStrip message="Hi, I just submitted a query on ACtoCash for selling my AC." />
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">{l.successTitle}</h2>
+          <p className="text-slate-500 mb-6">{l.successMsg}</p>
+          <WhatsAppStrip message={l.waSuccessMsg} label={l.whatsappLabel} />
           <button
             onClick={() => setDone(false)}
             className="text-emerald-600 font-semibold hover:underline cursor-pointer mt-4"
           >
-            Submit another query
+            {l.submitAnother}
           </button>
         </div>
       </main>
@@ -116,13 +194,24 @@ export default function Home() {
   return (
     <main className="min-h-screen flex items-start justify-center px-4 py-6 pb-12">
       <div className="w-full max-w-lg">
+        {/* ── Lang toggle ── */}
+        <div className="flex justify-end mb-2">
+          <button
+            type="button"
+            onClick={() => setLang(lang === "en" ? "hi" : "en")}
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-slate-200 bg-white text-xs font-medium text-slate-600 hover:bg-slate-50 transition cursor-pointer"
+          >
+            {lang === "en" ? "हिंदी" : "English"}
+          </button>
+        </div>
+
         {/* ── Brand ── */}
         <div className="text-center mb-5">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
             AC<span className="text-emerald-600">to</span>Cash
           </h1>
-          <p className="text-slate-500 text-sm font-medium mt-0.5">Mumbai</p>
-          <p className="text-slate-400 text-xs mt-0.5">Sell your old AC in minutes</p>
+          <p className="text-slate-500 text-sm font-medium mt-0.5">{l.subtitle}</p>
+          <p className="text-slate-400 text-xs mt-0.5">{l.tagline}</p>
           <div className="flex items-center justify-center gap-3 mt-1.5">
             {WHATSAPP_NUMBERS.map((n) => (
               <a
@@ -140,12 +229,12 @@ export default function Home() {
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
             {/* ── Section 1: About You ── */}
             <div className="px-5 pt-5 pb-4">
-              <SectionLabel text="About You" />
+              <SectionLabel text={l.aboutYou} />
               <div className="space-y-3 mt-3">
-                <Input label="Full Name" value={f.name} error={errors.name}
-                  onChange={(v) => set("name", v)} placeholder="Your name" />
-                <Input label="Phone" value={f.phone} error={errors.phone}
-                  onChange={(v) => set("phone", v)} placeholder="10-digit number"
+                <Input label={l.fullName} value={f.name} error={errors.name}
+                  onChange={(v) => set("name", v)} placeholder={l.namePlaceholder} />
+                <Input label={l.phone} value={f.phone} error={errors.phone}
+                  onChange={(v) => set("phone", v)} placeholder={l.phonePlaceholder}
                   inputMode="numeric" maxLength={10} />
               </div>
             </div>
@@ -154,22 +243,23 @@ export default function Home() {
 
             {/* ── Section 2: AC Details ── */}
             <div className="px-5 pt-4 pb-4">
-              <SectionLabel text="AC Details" />
+              <SectionLabel text={l.acDetails} />
 
-              <ChipGroup label="Type" options={AC_TYPES} value={f.acType}
+              <ChipGroup label={l.type} options={AC_TYPES} value={f.acType}
                 onChange={(v) => set("acType", v)} error={errors.acType} />
 
-              <ChipGroup label="Condition" options={CONDITIONS} value={f.condition}
+              <ChipGroup label={l.condition} options={CONDITIONS} value={f.condition}
                 onChange={(v) => set("condition", v)} error={errors.condition}
-                colors={{ "Working": "emerald", "Needs Repair": "amber", "Not Working": "red" }} />
+                colors={{ "Working": "emerald", "Needs Repair": "amber", "Not Working": "red" }}
+                displayMap={l.conditions} />
 
-              <ChipGroup label="Brand" options={BRANDS} value={f.brand}
+              <ChipGroup label={l.brand} options={BRANDS} value={f.brand}
                 onChange={(v) => set("brand", v)} scrollable />
 
-              <ChipGroup label="Tonnage" options={TONNAGES} value={f.tonnage}
+              <ChipGroup label={l.tonnage} options={TONNAGES} value={f.tonnage}
                 onChange={(v) => set("tonnage", v)} />
 
-              <ChipGroup label="Age" options={AGES} value={f.age}
+              <ChipGroup label={l.age} options={AGES} value={f.age}
                 onChange={(v) => set("age", v)} />
             </div>
 
@@ -177,16 +267,16 @@ export default function Home() {
 
             {/* ── Section 3: Pickup ── */}
             <div className="px-5 pt-4 pb-5">
-              <SectionLabel text="Pickup Details" />
+              <SectionLabel text={l.pickupDetails} />
 
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
-                  Pickup Address <span className="text-red-400">*</span>
+                  {l.pickupAddress} <span className="text-red-400">*</span>
                 </label>
                 <textarea
                   value={f.address}
                   onChange={(e) => set("address", e.target.value)}
-                  placeholder="Full address with landmark"
+                  placeholder={l.addressPlaceholder}
                   rows={2}
                   className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 bg-slate-50/50 resize-none transition"
                 />
@@ -195,12 +285,12 @@ export default function Home() {
 
               <div className="mt-3">
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
-                  Notes <span className="text-slate-300">(optional)</span>
+                  {l.notes} <span className="text-slate-300">{l.optional}</span>
                 </label>
                 <textarea
                   value={f.notes}
                   onChange={(e) => set("notes", e.target.value)}
-                  placeholder="Preferred time, floor, etc."
+                  placeholder={l.notesPlaceholder}
                   rows={2}
                   className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 bg-slate-50/50 resize-none transition"
                 />
@@ -219,15 +309,15 @@ export default function Home() {
             disabled={busy}
             className="w-full mt-5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] disabled:bg-emerald-400 text-white font-bold py-3.5 rounded-2xl transition-all cursor-pointer shadow-lg shadow-emerald-600/20 text-base"
           >
-            {busy ? "Submitting..." : "Get My Quote →"}
+            {busy ? l.submitting : `${l.submit} →`}
           </button>
 
           <p className="text-center text-[11px] text-slate-400 mt-3">
-            By submitting, you agree to be contacted by our team.
+            {l.consent}
           </p>
         </form>
 
-        <WhatsAppStrip message="Hi, I want to sell my old AC." />
+        <WhatsAppStrip message={l.waFormMsg} label={l.whatsappLabel} />
       </div>
     </main>
   );
@@ -237,11 +327,11 @@ export default function Home() {
 /*  Components                                  */
 /* ════════════════════════════════════════════ */
 
-function WhatsAppStrip({ message }: { message: string }) {
+function WhatsAppStrip({ message, label }: { message: string; label: string }) {
   return (
     <div className="mt-6">
       <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide text-center mb-2">
-        Or chat with us on WhatsApp
+        {label}
       </p>
       <div className="flex flex-col gap-2">
         {WHATSAPP_NUMBERS.map((n) => (
@@ -298,7 +388,7 @@ function Input({
 }
 
 function ChipGroup({
-  label, options, value, onChange, error, scrollable, colors,
+  label, options, value, onChange, error, scrollable, colors, displayMap,
 }: {
   label: string;
   options: string[];
@@ -307,6 +397,7 @@ function ChipGroup({
   error?: string;
   scrollable?: boolean;
   colors?: Record<string, string>;
+  displayMap?: Record<string, string>;
 }) {
   const chipColor = (opt: string, selected: boolean) => {
     if (!selected) return "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100";
@@ -330,7 +421,7 @@ function ChipGroup({
             onClick={() => onChange(value === opt ? "" : opt)}
             className={`shrink-0 px-3.5 py-1.5 rounded-full border text-xs font-medium cursor-pointer transition-all ${chipColor(opt, value === opt)}`}
           >
-            {opt}
+            {displayMap?.[opt] ?? opt}
           </button>
         ))}
       </div>
