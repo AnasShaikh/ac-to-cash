@@ -123,6 +123,17 @@ export default function Home() {
           </h1>
           <p className="text-slate-500 text-sm font-medium mt-0.5">Mumbai</p>
           <p className="text-slate-400 text-xs mt-0.5">Sell your old AC in minutes</p>
+          <div className="flex items-center justify-center gap-3 mt-1.5">
+            {WHATSAPP_NUMBERS.map((n) => (
+              <a
+                key={n.raw}
+                href={`tel:${n.raw.slice(2)}`}
+                className="text-emerald-600 text-xs font-medium hover:underline"
+              >
+                {n.display}
+              </a>
+            ))}
+          </div>
         </div>
 
         <form onSubmit={submit}>
