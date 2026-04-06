@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
+
+const GTAG_ID = "AW-953195901";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,18 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} antialiased`}>
       <head>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-953195901"
-          strategy="afterInteractive"
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GTAG_ID}');
+            `,
+          }}
         />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-953195901');
-          `}
-        </Script>
       </head>
       <body className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 text-slate-900 font-[var(--font-inter)]">
         {children}
