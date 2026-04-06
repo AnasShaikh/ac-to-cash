@@ -1,7 +1,7 @@
 # ACtoCash Session Log — April 5-6, 2026
 
 ## Session Summary
-Full-stack deployment, Google Ads setup, and conversion tracking for the ACtoCash lead capture app.
+Full-stack deployment, Google Ads setup, conversion tracking, and ad optimization for the ACtoCash lead capture app.
 
 ---
 
@@ -15,7 +15,7 @@ Full-stack deployment, Google Ads setup, and conversion tracking for the ACtoCas
 
 ### Google Ads Conversion Tracking Added
 - **Tracking ID:** `AW-953195901`
-- **Conversion label:** `CONVERSION_LABEL` (placeholder — needs to be updated with actual label from Google Ads)
+- **Conversion label:** `gkA1CKq82pYcEP26wsYD` (full send_to: `AW-953195901/gkA1CKq82pYcEP26wsYD`)
 - **Files changed:**
   - `src/app/layout.tsx` — Added inline Google tag (`gtag.js`) in `<head>` using `dangerouslySetInnerHTML` (standard `<script>` tags, not Next.js `Script` component, because Google's tag verifier can't detect `afterInteractive` strategy scripts).
   - `src/app/page.tsx` — Added `window.gtag("event", "conversion", ...)` call on successful form submission. Added `Window` type declaration for TypeScript.
@@ -125,32 +125,33 @@ ssh aws-openclaw "cd ~/ac-to-cash && git pull && npm run build && pm2 restart ac
   2. Don't let your old AC collect dust. We buy Split, Window & Inverter ACs. No haggling, no hassle.
 
 ### Sitelinks
-| Text                | URL                              |
-|---------------------|----------------------------------|
-| How It Works        | https://actocash.duckdns.org/    |
-| All Brands Accepted | https://actocash.duckdns.org/    |
-| Free Doorstep Pickup| https://actocash.duckdns.org/    |
-| Sell Your AC Now    | https://actocash.duckdns.org/    |
+Skipped — Google requires unique URLs per sitelink; only one landing page exists currently.
+
+### Callouts (Added April 6)
+- Free Doorstep Pickup
+- All Brands Accepted
+- Working or Not
+- Same Day Quote
 
 ---
 
 ## 4. Known Issues & Pending Items
 
 ### Critical
-- [ ] **Conversion label missing** — `CONVERSION_LABEL` placeholder in `src/app/page.tsx:71` needs the actual label from Google Ads (Goals > Conversions > Summary > click conversion > tag setup). Without this, Google can't optimize for form submissions.
+- [x] ~~**Conversion label missing**~~ — **RESOLVED (April 6).** Actual label `gkA1CKq82pYcEP26wsYD` obtained and deployed. Full send_to: `AW-953195901/gkA1CKq82pYcEP26wsYD`.
 
 ### Important
 - [ ] **SSH access breaks frequently** — EC2 security group SSH rule is tied to a specific IP. When ISP changes your IP, SSH breaks. Consider using EC2 Instance Connect or setting SSH source to a broader CIDR range.
 - [ ] **Disk space tight** — EC2 root volume is 6.8 GB with only ~300 MB free after cleanup. Should expand EBS volume.
-- [ ] **Google tag verification spinning** — Tag was deployed but Google's "Test connection" may need time to detect it. Retry after a few hours.
+- [x] ~~**Google tag verification spinning**~~ — **RESOLVED (April 6).** Switched from Next.js `Script` component to inline `<script>` tags. Verified via curl that live site renders proper `<script>` tags (not preload links). Google tag now detected.
 
 ### Future
 - [ ] Add negative keywords to Google Ads campaign (buy, purchase, rent, repair, service, install, new AC, AC on EMI)
-- [ ] Set up Google Ads conversion tracking once label is obtained
 - [ ] Consider expanding to Meta (Facebook/Instagram) ads if Google performs well
 - [ ] Photo upload feature for AC condition
 - [ ] Multi-city support
 - [ ] Email/WhatsApp notifications on new leads
+- [ ] Add sitelinks once additional landing pages exist (Google requires unique URLs per sitelink)
 
 ---
 
@@ -177,3 +178,4 @@ ssh aws-openclaw "cd ~/ac-to-cash && git pull && npm run build && pm2 restart ac
 | c5894db   | Remove platform-specific SWC dependency              |
 | df147f1   | Add Google Ads conversion tracking (AW-953195901)    |
 | cb3c72c   | Use inline script tags for Google tag to fix detection|
+| 52ed253   | Add actual Google Ads conversion label               |
