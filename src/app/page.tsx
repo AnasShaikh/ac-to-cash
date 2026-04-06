@@ -72,7 +72,7 @@ export default function Home() {
       // Fire Google Ads conversion
       if (typeof window !== "undefined" && typeof window.gtag === "function") {
         window.gtag("event", "conversion", {
-          send_to: "AW-953195901/CONVERSION_LABEL",
+          send_to: "AW-953195901/gkA1CKq82pYcEP26wsYD",
         });
       }
       setDone(true);
