@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   title: "ACtoCash — Sell Your Old AC Instantly",
   description:
     "Get the best price for your old AC. Fill a quick form and our team will contact you with a quote.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-256.png", sizes: "256x256", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
