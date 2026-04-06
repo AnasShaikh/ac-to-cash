@@ -1,7 +1,7 @@
 # ACtoCash Session Log — April 5-6, 2026
 
 ## Session Summary
-Full-stack deployment, Google Ads setup, conversion tracking, and ad optimization for the ACtoCash lead capture app.
+Full-stack deployment, Google Ads setup, conversion tracking, ad optimization, WhatsApp integration, branding, and Hindi language support for the ACtoCash lead capture app.
 
 ---
 
@@ -20,6 +20,27 @@ Full-stack deployment, Google Ads setup, conversion tracking, and ad optimizatio
   - `src/app/layout.tsx` — Added inline Google tag (`gtag.js`) in `<head>` using `dangerouslySetInnerHTML` (standard `<script>` tags, not Next.js `Script` component, because Google's tag verifier can't detect `afterInteractive` strategy scripts).
   - `src/app/page.tsx` — Added `window.gtag("event", "conversion", ...)` call on successful form submission. Added `Window` type declaration for TypeScript.
 - **Note:** Initially used Next.js `Script` component with `strategy="afterInteractive"` but Google's tag tester couldn't detect it. Switched to standard inline `<script>` tags.
+
+### WhatsApp Contact Numbers Added (April 6)
+- **Numbers:** 8097721250, 8369312226
+- **Placements:**
+  - Header — phone numbers displayed below tagline, hyperlinked for direct calling
+  - Below form — green WhatsApp buttons with pre-filled messages
+  - Success screen — WhatsApp buttons after form submission
+- **Files changed:** `src/app/page.tsx`
+
+### ACtoCash Logo & Favicon (April 6)
+- Created SVG logo — green rounded square with "AC / CASH" in white
+- Generated favicon.ico, favicon-32.png, favicon-256.png, apple-touch-icon.png
+- Updated `src/app/layout.tsx` metadata with proper icon references
+- **Files:** `public/logo.svg`, `public/favicon*`, `public/apple-touch-icon.png`
+
+### English/Hindi Language Toggle (April 6)
+- Toggle button in top-right corner — switches between English and Hinglish (Roman script Hindi)
+- All UI text translates: labels, placeholders, validation errors, buttons, success screen, WhatsApp strip
+- Condition chips translate: Working → Chalu, Needs Repair → Repair Chahiye, Not Working → Band Hai
+- Brand names, AC types, tonnages stay the same (universal terms)
+- **Files changed:** `src/app/page.tsx`
 
 ### Platform-Specific Dependency Removed
 - Removed `@next/swc-darwin-arm64` from `package.json` — was blocking `npm install` on Linux (EC2). Next.js auto-installs the correct SWC binary per platform.
@@ -93,7 +114,7 @@ ssh aws-openclaw "cd ~/ac-to-cash && git pull && npm run build && pm2 restart ac
 - **Objective:** Leads
 - **Bidding:** Maximize conversions (no target CPA set)
 - **Budget:** Rs 600/day
-- **Status:** Not eligible (payment pending)
+- **Status:** Eligible (Limited) — payment cleared April 6, ads running
 - **Start date:** April 5, 2026
 
 ### Targeting
@@ -112,17 +133,9 @@ ssh aws-openclaw "cd ~/ac-to-cash && git pull && npm run build && pm2 restart ac
 
 ### Ad Copy
 - **Display path:** actocash.duckdns.org/sell/old-AC
-- **Headlines (7):**
-  1. Sell Your Old AC — Get Cash
-  2. Free Pickup in Mumbai
-  3. Old AC Buyer Near You
-  4. Get Cash for Used AC Today
-  5. We Buy All AC Brands
-  6. Working or Not — We Buy ACs
-  7. Sell Old AC in 30 Seconds
-- **Descriptions (2):**
-  1. Quick form, fast quote, free doorstep pickup across Mumbai. Any brand, any condition accepted.
-  2. Don't let your old AC collect dust. We buy Split, Window & Inverter ACs. No haggling, no hassle.
+- **Headlines (15):** Updated April 6 — expanded from 7 to 15 headlines to improve ad strength. Removed phone number headline (policy violation).
+- **Descriptions (4-5):** Updated April 6 — expanded from 2 to improve ad strength.
+- **Policy fix:** Removed phone number from ad text (Google policy violation flagged April 6).
 
 ### Sitelinks
 Skipped — Google requires unique URLs per sitelink; only one landing page exists currently.
@@ -148,6 +161,7 @@ Skipped — Google requires unique URLs per sitelink; only one landing page exis
 ### Future
 - [ ] Add negative keywords to Google Ads campaign (buy, purchase, rent, repair, service, install, new AC, AC on EMI)
 - [ ] Consider expanding to Meta (Facebook/Instagram) ads if Google performs well
+- [ ] Open SSH to 0.0.0.0/0 (safe with key-based auth) to stop IP lockouts
 - [ ] Photo upload feature for AC condition
 - [ ] Multi-city support
 - [ ] Email/WhatsApp notifications on new leads
@@ -179,3 +193,8 @@ Skipped — Google requires unique URLs per sitelink; only one landing page exis
 | df147f1   | Add Google Ads conversion tracking (AW-953195901)    |
 | cb3c72c   | Use inline script tags for Google tag to fix detection|
 | 52ed253   | Add actual Google Ads conversion label               |
+| 1e358e4   | Update session log: conversion tracking complete      |
+| f68ca02   | Add WhatsApp contact numbers to form and success screen|
+| 63a95f2   | Add phone numbers to header for quick calling         |
+| fee10bd   | Add ACtoCash logo and favicons                        |
+| a99cf2f   | Add English/Hindi language toggle                     |
