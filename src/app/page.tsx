@@ -245,7 +245,7 @@ export default function Home() {
 
         {/* ── Brand ── */}
         <div className="text-center mb-5">
-          <img src="/logo-myacwala.png" alt="MyACWala" className="h-16 mx-auto mb-1" />
+          <img src="/logo-myacwala.png" alt="MyACWala" className="h-28 mx-auto mb-1" />
           <p className="text-slate-500 text-sm font-medium mt-0.5">{l.subtitle}</p>
           <p className="text-slate-400 text-xs mt-0.5">{l.tagline}</p>
           <div className="flex items-center justify-center gap-3 mt-1.5">
