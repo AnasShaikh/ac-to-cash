@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
         age: body.age?.trim() || null,
         expectedPrice: body.expectedPrice?.trim() || null,
         notes: body.notes?.trim() || null,
+        photoUrl: body.photoUrl?.trim() || null,
       },
     });
 

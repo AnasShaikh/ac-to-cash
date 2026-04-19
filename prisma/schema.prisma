@@ -21,5 +21,6 @@ model Lead {
   age           String?
   expectedPrice String?
   notes         String?
+  photoUrl      String?
   status        String   @default("new")
 }

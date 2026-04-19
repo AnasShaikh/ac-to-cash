@@ -30,6 +30,9 @@ const t = {
     notes: "Notes",
     optional: "(optional)",
     notesPlaceholder: "Preferred time, floor, etc.",
+    photo: "AC Photo",
+    photoHint: "Tap to upload a photo of your AC",
+    photoUploading: "Uploading...",
     submit: "Get My Quote",
     submitting: "Submitting...",
     consent: "By submitting, you agree to be contacted by our team.",
@@ -65,6 +68,9 @@ const t = {
     notes: "Notes",
     optional: "(optional)",
     notesPlaceholder: "Time, floor, etc.",
+    photo: "AC Ki Photo",
+    photoHint: "Apne AC ki photo upload karein",
+    photoUploading: "Upload ho raha hai...",
     submit: "Quote Mangein",
     submitting: "Bhej rahe hain...",
     consent: "Submit karne par aap hamare team se contact hone ke liye agree karte hain.",
@@ -114,6 +120,25 @@ const blank: Form = {
   age: "", condition: "", address: "", notes: "",
 };
 
+const GOOGLE_ADS_SEND_TO = "AW-953195901/gkA1CKq82pYcEP26wsYD";
+
+function reportLeadFormConversion() {
+  if (typeof window === "undefined") return;
+
+  // Keep a queue available even if the Google script finishes loading a moment later.
+  if (typeof window.gtag !== "function") {
+    (window as Window & { dataLayer?: unknown[] }).dataLayer = (window as Window & { dataLayer?: unknown[] }).dataLayer || [];
+    window.gtag = (...args: unknown[]) => {
+      (window as Window & { dataLayer?: unknown[] }).dataLayer?.push(args);
+    };
+  }
+
+  window.gtag("event", "conversion", {
+    send_to: GOOGLE_ADS_SEND_TO,
+    event_callback: () => undefined,
+  });
+}
+
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const l = t[lang];
@@ -122,6 +147,9 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [serverErr, setServerErr] = useState("");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoUploading, setPhotoUploading] = useState(false);
 
   const set = (key: keyof Form, val: string) => {
     setF((p) => ({ ...p, [key]: val }));
@@ -146,24 +174,34 @@ export default function Home() {
     setBusy(true);
     setServerErr("");
     try {
+      let photoUrl: string | null = null;
+      if (photoFile) {
+        setPhotoUploading(true);
+        const fd = new FormData();
+        fd.append("file", photoFile);
+        const upRes = await fetch("/api/upload", { method: "POST", body: fd });
+        setPhotoUploading(false);
+        if (upRes.ok) {
+          const upData = await upRes.json();
+          photoUrl = upData.url;
+        }
+      }
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(f),
+        body: JSON.stringify({ ...f, photoUrl }),
       });
       if (!res.ok) throw new Error();
-      // Fire Google Ads conversion
-      if (typeof window !== "undefined" && typeof window.gtag === "function") {
-        window.gtag("event", "conversion", {
-          send_to: "AW-953195901/gkA1CKq82pYcEP26wsYD",
-        });
-      }
+      reportLeadFormConversion();
       setDone(true);
       setF(blank);
+      setPhotoFile(null);
+      setPhotoPreview(null);
     } catch {
       setServerErr(l.serverError);
     } finally {
       setBusy(false);
+      setPhotoUploading(false);
     }
   };
 
@@ -295,6 +333,41 @@ export default function Home() {
                   className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 bg-slate-50/50 resize-none transition"
                 />
               </div>
+
+              <div className="mt-3">
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
+                  {l.photo} <span className="text-slate-300">{l.optional}</span>
+                </label>
+                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/30 transition bg-slate-50/50">
+                  {photoPreview ? (
+                    <img src={photoPreview} alt="AC preview" className="w-full max-h-40 object-contain rounded-lg" />
+                  ) : (
+                    <>
+                      <svg className="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <span className="text-xs text-slate-400">{l.photoHint}</span>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] ?? null;
+                      setPhotoFile(file);
+                      if (file) setPhotoPreview(URL.createObjectURL(file));
+                      else setPhotoPreview(null);
+                    }}
+                  />
+                </label>
+                {photoPreview && (
+                  <button type="button" onClick={() => { setPhotoFile(null); setPhotoPreview(null); }}
+                    className="text-xs text-red-400 hover:underline mt-1">Remove photo</button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -309,7 +382,7 @@ export default function Home() {
             disabled={busy}
             className="w-full mt-5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] disabled:bg-emerald-400 text-white font-bold py-3.5 rounded-2xl transition-all cursor-pointer shadow-lg shadow-emerald-600/20 text-base"
           >
-            {busy ? l.submitting : `${l.submit} →`}
+            {photoUploading ? l.photoUploading : busy ? l.submitting : `${l.submit} →`}
           </button>
 
           <p className="text-center text-[11px] text-slate-400 mt-3">
