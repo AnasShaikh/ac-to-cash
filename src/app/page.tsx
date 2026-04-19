@@ -40,7 +40,7 @@ const t = {
     successTitle: "Query Submitted!",
     successMsg: "Our team will call you within a few hours with the best offer for your AC.",
     submitAnother: "Submit another query",
-    waSuccessMsg: "Hi, I just submitted a query on MyACWala for selling my AC.",
+    waSuccessMsg: "Hi, I just submitted a query on AC Merchant for selling my AC.",
     waFormMsg: "Hi, I want to sell my old AC.",
     required: "Required",
     invalidPhone: "Enter valid 10-digit number",
@@ -78,7 +78,7 @@ const t = {
     successTitle: "Query Submit Ho Gayi!",
     successMsg: "Hamari team kuch ghanton mein aapko call karegi aapke AC ka best offer dene ke liye.",
     submitAnother: "Ek aur query submit karein",
-    waSuccessMsg: "Hi, maine MyACWala par apna AC bechne ke liye query submit ki hai.",
+    waSuccessMsg: "Hi, maine AC Merchant par apna AC bechne ke liye query submit ki hai.",
     waFormMsg: "Hi, mujhe apna purana AC bechna hai.",
     required: "Zaruri hai",
     invalidPhone: "Sahi 10 digit number daalein",
@@ -245,7 +245,7 @@ export default function Home() {
 
         {/* ── Brand ── */}
         <div className="text-center mb-5">
-          <img src="/logo-myacwala.png" alt="MyACWala" className="h-36 mx-auto" />
+          <img src="/logo-acmerchant.svg" alt="AC Merchant" className="h-20 mx-auto" />
           <p className="text-slate-500 text-xs font-medium mt-1">{l.subtitle}</p>
           <div className="flex items-center justify-center gap-3 mt-1">
             {WHATSAPP_NUMBERS.map((n) => (

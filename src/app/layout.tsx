@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MyACWala — Sell Your Old AC Instantly",
+  title: "AC Merchant — Sell Your Old AC Instantly",
   description:
     "Get the best price for your old AC in Mumbai. Fill a quick form and our team will contact you with a quote.",
   icons: {
