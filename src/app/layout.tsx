@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ACtoCash — Sell Your Old AC Instantly",
+  title: "MyACWala — Sell Your Old AC Instantly",
   description:
-    "Get the best price for your old AC. Fill a quick form and our team will contact you with a quote.",
+    "Get the best price for your old AC in Mumbai. Fill a quick form and our team will contact you with a quote.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -31,13 +31,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} antialiased`}>
-      <body className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 text-slate-900 font-[var(--font-inter)]">
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`} strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">
+      <body className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 text-slate-900 font-[var(--font-inter)]">
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`} strategy="beforeInteractive" />
+        <Script id="gtag-init" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GTAG_ID}');`}
+            window.gtag = window.gtag || function gtag(){window.dataLayer.push(arguments);}
+            window.gtag('js', new Date());
+            window.gtag('config', '${GTAG_ID}');`}
         </Script>
         {children}
       </body>

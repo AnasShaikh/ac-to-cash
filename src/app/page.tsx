@@ -40,7 +40,7 @@ const t = {
     successTitle: "Query Submitted!",
     successMsg: "Our team will call you within a few hours with the best offer for your AC.",
     submitAnother: "Submit another query",
-    waSuccessMsg: "Hi, I just submitted a query on ACtoCash for selling my AC.",
+    waSuccessMsg: "Hi, I just submitted a query on MyACWala for selling my AC.",
     waFormMsg: "Hi, I want to sell my old AC.",
     required: "Required",
     invalidPhone: "Enter valid 10-digit number",
@@ -78,7 +78,7 @@ const t = {
     successTitle: "Query Submit Ho Gayi!",
     successMsg: "Hamari team kuch ghanton mein aapko call karegi aapke AC ka best offer dene ke liye.",
     submitAnother: "Ek aur query submit karein",
-    waSuccessMsg: "Hi, maine ACtoCash par apna AC bechne ke liye query submit ki hai.",
+    waSuccessMsg: "Hi, maine MyACWala par apna AC bechne ke liye query submit ki hai.",
     waFormMsg: "Hi, mujhe apna purana AC bechna hai.",
     required: "Zaruri hai",
     invalidPhone: "Sahi 10 digit number daalein",
@@ -210,8 +210,8 @@ export default function Home() {
     return (
       <main className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
-          <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5">
-            <svg className="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-5">
+            <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
             </svg>
           </div>
@@ -220,7 +220,7 @@ export default function Home() {
           <WhatsAppStrip message={l.waSuccessMsg} label={l.whatsappLabel} />
           <button
             onClick={() => setDone(false)}
-            className="text-emerald-600 font-semibold hover:underline cursor-pointer mt-4"
+            className="text-blue-600 font-semibold hover:underline cursor-pointer mt-4"
           >
             {l.submitAnother}
           </button>
@@ -245,9 +245,7 @@ export default function Home() {
 
         {/* ── Brand ── */}
         <div className="text-center mb-5">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
-            AC<span className="text-emerald-600">to</span>Cash
-          </h1>
+          <img src="/logo-myacwala.png" alt="MyACWala" className="h-16 mx-auto mb-1" />
           <p className="text-slate-500 text-sm font-medium mt-0.5">{l.subtitle}</p>
           <p className="text-slate-400 text-xs mt-0.5">{l.tagline}</p>
           <div className="flex items-center justify-center gap-3 mt-1.5">
@@ -255,7 +253,7 @@ export default function Home() {
               <a
                 key={n.raw}
                 href={`tel:${n.raw.slice(2)}`}
-                className="text-emerald-600 text-xs font-medium hover:underline"
+                className="text-blue-600 text-xs font-medium hover:underline"
               >
                 {n.display}
               </a>
@@ -316,7 +314,7 @@ export default function Home() {
                   onChange={(e) => set("address", e.target.value)}
                   placeholder={l.addressPlaceholder}
                   rows={2}
-                  className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 bg-slate-50/50 resize-none transition"
+                  className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 bg-slate-50/50 resize-none transition"
                 />
                 {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
               </div>
@@ -330,7 +328,7 @@ export default function Home() {
                   onChange={(e) => set("notes", e.target.value)}
                   placeholder={l.notesPlaceholder}
                   rows={2}
-                  className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 bg-slate-50/50 resize-none transition"
+                  className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 bg-slate-50/50 resize-none transition"
                 />
               </div>
 
@@ -338,7 +336,7 @@ export default function Home() {
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
                   {l.photo} <span className="text-slate-300">{l.optional}</span>
                 </label>
-                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/30 transition bg-slate-50/50">
+                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-xl p-4 cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition bg-slate-50/50">
                   {photoPreview ? (
                     <img src={photoPreview} alt="AC preview" className="w-full max-h-40 object-contain rounded-lg" />
                   ) : (
@@ -380,7 +378,7 @@ export default function Home() {
           <button
             type="submit"
             disabled={busy}
-            className="w-full mt-5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] disabled:bg-emerald-400 text-white font-bold py-3.5 rounded-2xl transition-all cursor-pointer shadow-lg shadow-emerald-600/20 text-base"
+            className="w-full mt-5 bg-[#F47A20] hover:bg-[#d96a15] active:scale-[0.98] disabled:bg-orange-300 text-white font-bold py-3.5 rounded-2xl transition-all cursor-pointer shadow-lg shadow-orange-400/20 text-base"
           >
             {photoUploading ? l.photoUploading : busy ? l.submitting : `${l.submit} →`}
           </button>
@@ -453,7 +451,7 @@ function Input({
         placeholder={placeholder}
         inputMode={inputMode}
         maxLength={maxLength}
-        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 bg-slate-50/50 transition"
+        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 bg-slate-50/50 transition"
       />
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
@@ -475,10 +473,10 @@ function ChipGroup({
   const chipColor = (opt: string, selected: boolean) => {
     if (!selected) return "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100";
     const c = colors?.[opt];
-    if (c === "emerald") return "bg-emerald-50 border-emerald-400 text-emerald-700 ring-1 ring-emerald-400/30";
+    if (c === "emerald") return "bg-blue-50 border-blue-400 text-blue-700 ring-1 ring-blue-400/30";
     if (c === "amber") return "bg-amber-50 border-amber-400 text-amber-700 ring-1 ring-amber-400/30";
     if (c === "red") return "bg-red-50 border-red-400 text-red-700 ring-1 ring-red-400/30";
-    return "bg-emerald-50 border-emerald-400 text-emerald-700 ring-1 ring-emerald-400/30";
+    return "bg-blue-50 border-blue-400 text-blue-700 ring-1 ring-blue-400/30";
   };
 
   return (
