@@ -245,10 +245,9 @@ export default function Home() {
 
         {/* ── Brand ── */}
         <div className="text-center mb-5">
-          <img src="/logo-myacwala.png" alt="MyACWala" className="h-28 mx-auto mb-1" />
-          <p className="text-slate-500 text-sm font-medium mt-0.5">{l.subtitle}</p>
-          <p className="text-slate-400 text-xs mt-0.5">{l.tagline}</p>
-          <div className="flex items-center justify-center gap-3 mt-1.5">
+          <img src="/logo-myacwala.png" alt="MyACWala" className="h-36 mx-auto" />
+          <p className="text-slate-500 text-xs font-medium mt-1">{l.subtitle}</p>
+          <div className="flex items-center justify-center gap-3 mt-1">
             {WHATSAPP_NUMBERS.map((n) => (
               <a
                 key={n.raw}
