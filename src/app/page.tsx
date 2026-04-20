@@ -97,7 +97,7 @@ const WHATSAPP_NUMBERS = [
 const AC_TYPES = ["Split", "Window", "Inverter", "Cassette", "Other"];
 const CONDITIONS = ["Working", "Needs Repair", "Not Working"];
 const BRANDS = ["LG", "Samsung", "Daikin", "Voltas", "Blue Star", "Hitachi", "Carrier", "Lloyd", "Godrej", "Other"];
-const TONNAGES = ["0.75 Ton", "1 Ton", "1.5 Ton", "2 Ton", "2+ Ton"];
+const TONNAGES = ["0.75 Ton", "1 Ton", "1.5 Ton", "2 Ton", "2.5 Ton", "3 Ton", "3.5 Ton", "4 Ton", "5 Ton", "6 Ton", "7.5 Ton", "8 Ton", "10 Ton", "11 Ton", "11+ Ton"];
 const AGES = ["< 1 yr", "1-2 yrs", "3-4 yrs", "5-7 yrs", "8+ yrs"];
 
 
@@ -291,8 +291,19 @@ export default function Home() {
               <ChipGroup label={l.brand} options={BRANDS} value={f.brand}
                 onChange={(v) => set("brand", v)} scrollable />
 
-              <ChipGroup label={l.tonnage} options={TONNAGES} value={f.tonnage}
-                onChange={(v) => set("tonnage", v)} />
+              <div className="mt-3">
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
+                  {l.tonnage}
+                </label>
+                <select
+                  value={f.tonnage}
+                  onChange={(e) => set("tonnage", e.target.value)}
+                  className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 bg-slate-50/50 transition"
+                >
+                  <option value="">Select tonnage</option>
+                  {TONNAGES.map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
 
               <ChipGroup label={l.age} options={AGES} value={f.age}
                 onChange={(v) => set("age", v)} />
