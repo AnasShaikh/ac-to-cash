@@ -96,7 +96,7 @@ const WHATSAPP_NUMBERS = [
 
 const AC_TYPES = ["Window AC", "Split AC", "Cassette AC", "Ductable AC", "Tower AC", "VRV/VRF", "Other"];
 const CONDITIONS = ["Working", "Needs Repair", "Not Working"];
-const BRANDS = ["LG", "Samsung", "Daikin", "Voltas", "Blue Star", "Hitachi", "Carrier", "Lloyd", "Godrej", "Other"];
+const BRANDS = ["Voltas", "Daikin", "Blue Star", "Hitachi", "Carrier", "Mitsubishi", "LG", "Panasonic", "Samsung", "Lloyd", "Godrej", "Other"];
 const TONNAGES = ["0.75 Ton", "1 Ton", "1.5 Ton", "2 Ton", "2.5 Ton", "3 Ton", "3.5 Ton", "4 Ton", "5 Ton", "6 Ton", "7.5 Ton", "8 Ton", "10 Ton", "11 Ton", "11+ Ton"];
 const AGES = ["< 1 yr", "1-2 yrs", "3-4 yrs", "5-7 yrs", "8+ yrs"];
 
