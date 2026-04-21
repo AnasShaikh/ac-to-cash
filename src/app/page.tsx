@@ -94,7 +94,7 @@ const WHATSAPP_NUMBERS = [
   { display: "83693 12226", raw: "918369312226" },
 ];
 
-const AC_TYPES = ["Split", "Window", "Inverter", "Cassette", "Other"];
+const AC_TYPES = ["Split", "Window", "Cassette", "Other"];
 const CONDITIONS = ["Working", "Needs Repair", "Not Working"];
 const BRANDS = ["LG", "Samsung", "Daikin", "Voltas", "Blue Star", "Hitachi", "Carrier", "Lloyd", "Godrej", "Other"];
 const TONNAGES = ["0.75 Ton", "1 Ton", "1.5 Ton", "2 Ton", "2.5 Ton", "3 Ton", "3.5 Ton", "4 Ton", "5 Ton", "6 Ton", "7.5 Ton", "8 Ton", "10 Ton", "11 Ton", "11+ Ton"];
